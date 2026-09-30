@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Finxty — Finance, compliance and filings for growing businesses</title>
+<meta name="description" content="Finxty handles bookkeeping, tax compliance, corporate filings, FEMA/RBI compliance, incorporations, litigation and transaction advisory for growing businesses in India.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+  --ink:#0B0F17;
+  --ink-2:#141A26;
+  --paper:#EEF0F3;
+  --paper-2:#E2E6EC;
+  --cobalt:#4A6A9E;
+  --cobalt-2:#8FA6C9;
+  --ice:#D4DCE8;
+  --mist:#8C97AB;
+  --line:rgba(154,167,194,.22);
+
+  --bg:var(--ink);
+  --fg:var(--paper);
+  --muted:var(--mist);
+  --x:var(--cobalt);
+  --xa:.16;
+  --display:'Bebas Neue',Impact,'Arial Narrow',sans-serif;
+  --body:'Plus Jakarta Sans',ui-sans-serif,system-ui,Segoe UI,Roboto,sans-serif;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px);scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+*,*::before,*::after{box-sizing:inherit;margin:0;padding:0}
+body{
+  font-family:var(--body);
+  background:var(--bg);
+  color:var(--fg);
+  transition:background .8s cubic-bezier(.2,.7,.2,1),color .8s cubic-bezier(.2,.7,.2,1);
+  -webkit-font-smoothing:antialiased;
+  overflow-x:hidden;
+  line-height:1.5;
+}
+body[data-theme="light"]{--bg:var(--paper);--fg:var(--ink);--muted:#5B6578;--line:rgba(11,15,23,.14);--x:#3E5A88;--xa:.10}
+body[data-theme="dark"]{--bg:var(--ink);--fg:var(--paper);--muted:var(--mist);--line:rgba(154,167,194,.22);--x:var(--cobalt);--xa:.16}
+body[data-theme="cobalt"]{--bg:#2B3B58;--fg:#F1F3F6;--muted:var(--ice);--line:rgba(255,255,255,.22);--x:#B8C6DC;--xa:.10}
+a{color:inherit;text-decoration:none}
+:focus-visible{outline:2px solid var(--cobalt-2);outline-offset:4px}
+body[data-theme="cobalt"] :focus-visible{outline-color:#fff}
+
+/* ---------- grid + wrap ---------- */
+.wrap{width:min(1280px,calc(100% - 2.5rem));margin-inline:auto}
+@media (min-width:900px){.wrap{width:min(1280px,calc(100% - 6rem))}}
+
+/* ---------- scroll progress ---------- */
+.progress{position:fixed;left:0;top:env(safe-area-inset-top,0px);height:3px;width:100%;background:transparent;z-index:60;pointer-events:none}
+.progress i{display:block;height:100%;width:100%;background:var(--x);transform-origin:left;transform:scaleX(0);transition:background .8s}
+
+/* ---------- the X (fixed, scroll driven) ---------- */
+.xmark{
+  position:fixed;inset:0;z-index:0;pointer-events:none;
+  display:grid;place-items:center;overflow:hidden;
+}
+.xmark svg{width:min(120vw,120vh);height:auto;opacity:var(--xa);transition:opacity .8s;will-change:transform}
+.xmark.gl svg{display:none}
+#gl{position:fixed;inset:0;width:100%;height:100%;display:block;opacity:0;transition:opacity 1.2s ease}
+.xmark.gl #gl{opacity:1}
+.xmark svg rect{fill:var(--x);transition:fill .8s}
+.grain{position:fixed;inset:0;z-index:1;pointer-events:none;opacity:.22;mix-blend-mode:overlay;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .5 0'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");}
+main,header,footer{position:relative;z-index:2}
+
+/* ---------- nav ---------- */
+.nav{
+  position:sticky;top:env(safe-area-inset-top,0px);z-index:50;
+  padding-top:1rem;padding-bottom:1rem;
+  display:flex;align-items:center;justify-content:space-between;gap:1rem;
+  backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+  border-bottom:1px solid var(--line);
+  background:color-mix(in srgb,var(--bg) 70%,transparent);
+  transition:background .8s,border-color .8s;
+}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:1rem}
+.logo{font-family:var(--display);font-size:2rem;letter-spacing:.06em;line-height:1;display:inline-flex;align-items:baseline}
+.logo b{font-weight:400;color:var(--x);display:inline-block;transition:color .8s,transform .5s}
+.logo:hover b{transform:rotate(90deg)}
+.nav-links{display:none;gap:2rem;font-size:.9rem;font-weight:500;color:var(--muted)}
+.nav-links a{position:relative;padding:.25rem 0}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:var(--x);transition:width .3s}
+.nav-links a:hover::after{width:100%}
+@media (min-width:900px){.nav-links{display:flex}}
+.btn{
+  display:inline-flex;align-items:center;gap:.6rem;
+  font-weight:600;font-size:.92rem;
+  padding:.8rem 1.25rem;border-radius:999px;
+  border:1px solid var(--fg);color:var(--fg);
+  transition:background .3s,color .3s,border-color .8s,transform .3s;
+}
+.btn:hover{background:var(--fg);color:var(--bg);transform:translateY(-1px)}
+.btn.solid{background:var(--x);border-color:var(--x);color:#fff}
+.btn.solid:hover{background:var(--fg);border-color:var(--fg);color:var(--bg)}
+body[data-theme="cobalt"] .btn.solid{background:#fff;border-color:#fff;color:var(--cobalt)}
+.btn svg{width:1em;height:1em}
+
+/* ---------- hero ---------- */
+.hero{
+  min-height:calc(100svh - 4.5rem);
+  display:grid;align-content:end;
+  padding-top:5rem;padding-bottom:3rem;
+  position:relative;
+}
+.hero .word{
+  font-family:var(--display);
+  font-size:clamp(5.5rem,22vw,20rem);
+  line-height:.86;letter-spacing:.01em;
+  display:flex;align-items:baseline;
+  user-select:none;
+}
+.hero .word span{display:inline-block;opacity:0;transform:translateY(.4em) rotate(2deg);animation:rise .9s cubic-bezier(.2,.8,.2,1) forwards}
+.hero .word span:nth-child(1){animation-delay:.05s}
+.hero .word span:nth-child(2){animation-delay:.12s}
+.hero .word span:nth-child(3){animation-delay:.19s}
+.hero .word span:nth-child(4){animation-delay:.26s}
+.hero .word span:nth-child(5){animation-delay:.33s}
+.hero .word span:nth-child(6){animation-delay:.40s}
+.hero .word .x{color:var(--x);position:relative;transform-origin:50% 60%;animation:rise .9s cubic-bezier(.2,.8,.2,1) .26s forwards,spin 1.4s cubic-bezier(.2,.8,.2,1) 1s forwards;transition:color .8s}
+@keyframes rise{to{opacity:1;transform:translateY(0) rotate(0)}}
+@keyframes spin{0%{transform:rotate(0)}100%{transform:rotate(360deg)}}
+.hero-row{display:grid;gap:2rem;margin-top:2.5rem;align-items:end}
+@media (min-width:900px){.hero-row{grid-template-columns:1.2fr 1fr;gap:4rem}}
+.hero p.lede{font-size:clamp(1.15rem,2.2vw,1.6rem);font-weight:400;line-height:1.35;max-width:26ch;opacity:0;animation:fade 1s ease .7s forwards}
+.hero .cta{display:flex;flex-wrap:wrap;gap:.8rem;opacity:0;animation:fade 1s ease .9s forwards}
+@keyframes fade{to{opacity:1}}
+.hero .scroll{position:absolute;right:0;bottom:3rem;display:none;align-items:center;gap:.8rem;font-size:.8rem;color:var(--muted);opacity:0;animation:fade 1s ease 1.4s forwards}
+.hero .scroll i{display:block;width:1px;height:56px;background:var(--muted);position:relative;overflow:hidden}
+.hero .scroll i::after{content:"";position:absolute;inset:0;background:var(--x);transform:translateY(-100%);animation:drop 1.8s ease-in-out infinite}
+@keyframes drop{to{transform:translateY(100%)}}
+@media (min-width:900px){.hero .scroll{display:flex;bottom:4rem}}
+
+/* ---------- ticker ---------- */
+.ticker{border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:1.1rem 0;transition:border-color .8s}
+.ticker .track{display:flex;gap:3rem;white-space:nowrap;width:max-content;animation:scroll 40s linear infinite}
+.ticker span{font-family:var(--display);font-size:1.6rem;letter-spacing:.08em;display:inline-flex;align-items:center;gap:3rem}
+.ticker span::after{content:"×";color:var(--x);font-size:1.3rem}
+@keyframes scroll{to{transform:translateX(-50%)}}
+@media (prefers-reduced-motion:reduce){.ticker .track{animation:none}.hero .word span,.hero .word .x{animation:none;opacity:1;transform:none}.hero p.lede,.hero .cta{animation:none;opacity:1}}
+
+/* ---------- sections ---------- */
+section{padding-block:clamp(5rem,12vw,9rem)}
+.head{display:grid;gap:1.25rem;margin-bottom:clamp(2.5rem,6vw,4.5rem)}
+@media (min-width:900px){.head{grid-template-columns:1fr 1fr;align-items:end;gap:4rem}}
+h2{font-family:var(--display);font-size:clamp(3.2rem,8vw,7rem);line-height:.9;letter-spacing:.01em;font-weight:400}
+h2 em{font-style:normal;color:var(--x);transition:color .8s}
+.head p{font-size:clamp(1rem,1.4vw,1.2rem);color:var(--muted);max-width:44ch;line-height:1.55}
+
+/* ---------- services ---------- */
+.services{display:grid}
+@media (min-width:900px){.services{grid-template-columns:1fr 1.6fr;gap:4rem;align-items:start}}
+.services .sticky{position:sticky;top:6.5rem}
+.services .sticky h2{margin-bottom:1.25rem}
+.svc{list-style:none;border-top:1px solid var(--line)}
+.svc li{border-bottom:1px solid var(--line);transition:border-color .8s}
+.svc button{
+  all:unset;cursor:pointer;width:100%;display:grid;grid-template-columns:1fr auto;align-items:center;gap:1rem;
+  padding:1.4rem 0;font-family:var(--display);font-size:clamp(1.9rem,4.2vw,3.2rem);letter-spacing:.02em;line-height:1;
+  transition:padding-left .35s cubic-bezier(.2,.8,.2,1),color .3s;
+}
+.svc button:hover,.svc li.open button{padding-left:.6em;color:var(--x)}
+.svc button .plus{width:1.1em;height:1.1em;display:grid;place-items:center;border:1px solid var(--line);border-radius:50%;font-family:var(--body);font-size:.5em;font-weight:500;transition:transform .35s,background .3s,color .3s,border-color .8s}
+.svc li.open .plus{transform:rotate(45deg);background:var(--x);color:#fff;border-color:var(--x)}
+.svc .body{display:grid;grid-template-rows:0fr;transition:grid-template-rows .45s cubic-bezier(.2,.8,.2,1)}
+.svc li.open .body{grid-template-rows:1fr}
+.svc .body > div{overflow:hidden}
+.svc .body p{padding:0 0 1.6rem;max-width:56ch;color:var(--muted);font-size:1.02rem;line-height:1.6}
+.svc .body ul{list-style:none;display:flex;flex-wrap:wrap;gap:.5rem;padding:0 0 1.8rem}
+.svc .body ul li{border:1px solid var(--line);border-radius:999px;padding:.35rem .8rem;font-size:.82rem;font-weight:500}
+
+/* ---------- process ---------- */
+.steps{perspective:1200px;display:grid;gap:1px;background:var(--line);border:1px solid var(--line);transition:background .8s,border-color .8s}
+@media (min-width:700px){.steps{grid-template-columns:repeat(2,1fr)}}
+@media (min-width:1100px){.steps{grid-template-columns:repeat(4,1fr)}}
+.step{background:var(--bg);padding:2rem 1.6rem 2.4rem;transition:background .8s,transform .25s ease;transform-style:preserve-3d;will-change:transform;position:relative;min-height:260px;display:flex;flex-direction:column;justify-content:space-between;gap:2rem}
+.step .n{transform:translateZ(30px);font-family:var(--display);font-size:4rem;line-height:1;color:var(--x);transition:color .8s}
+.step h3{font-family:var(--display);font-size:1.9rem;letter-spacing:.03em;font-weight:400;line-height:1;margin-bottom:.6rem}
+.step p{color:var(--muted);font-size:.95rem;line-height:1.55}
+
+/* ---------- team ---------- */
+.team{display:grid;gap:2.5rem}
+@media (min-width:900px){.team{grid-template-columns:1.1fr 1fr;gap:5rem;align-items:center}}
+.team .big{font-family:var(--display);font-size:clamp(2.6rem,6vw,5.2rem);line-height:.95;letter-spacing:.01em}
+.team .big em{font-style:normal;color:var(--x)}
+.pillars{display:grid;gap:0;border-top:1px solid var(--line)}
+.pillars{perspective:900px}
+.pillars div{transition:transform .3s ease;transform-style:preserve-3d;padding:1.4rem 0;border-bottom:1px solid var(--line);display:grid;grid-template-columns:auto 1fr;gap:1.2rem;align-items:start}
+.pillars svg{width:26px;height:26px;stroke:var(--x);fill:none;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;margin-top:.15rem;transition:stroke .8s}
+.pillars h4{font-weight:600;font-size:1.05rem;margin-bottom:.25rem}
+.pillars p{color:var(--muted);font-size:.95rem;line-height:1.55}
+
+/* ---------- contact ---------- */
+.contact{min-height:90svh;display:grid;align-content:center}
+.contact h2{font-size:clamp(3.6rem,11vw,10rem)}
+.contact .lines{margin-top:2.5rem;display:grid;gap:1rem}
+.contact .line{
+  display:flex;flex-wrap:wrap;align-items:baseline;gap:.5rem 1.5rem;
+  border-top:1px solid var(--line);padding:1.4rem 0;
+}
+.contact .line small{font-size:.85rem;color:var(--muted);min-width:5rem}
+.contact .line a{font-family:var(--display);font-size:clamp(1.9rem,6vw,4.6rem);letter-spacing:.02em;line-height:1;position:relative;word-break:break-all}
+.contact .line a::after{content:"";position:absolute;left:0;bottom:-.08em;height:.06em;width:100%;background:currentColor;transform:scaleX(0);transform-origin:left;transition:transform .4s cubic-bezier(.2,.8,.2,1)}
+.contact .line a:hover::after{transform:scaleX(1)}
+.contact p.note{margin-top:2rem;color:var(--muted);max-width:52ch}
+
+/* ---------- footer ---------- */
+footer{border-top:1px solid var(--line);padding:2.5rem 0 3rem;font-size:.85rem;color:var(--muted)}
+footer .wrap{display:flex;flex-wrap:wrap;gap:1rem 2rem;justify-content:space-between;align-items:center}
+footer .logo{font-size:1.6rem}
+
+/* ---------- reveal (one per section title) ---------- */
+.reveal{opacity:0;transform:translateY(28px);transition:opacity .8s ease,transform .8s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}}
+</style>
+</head>
+<body data-theme="dark">
+<div class="progress" aria-hidden="true"><i id="bar"></i></div>
+<div class="xmark" id="xmark" aria-hidden="true">
+  <canvas id="gl"></canvas>
+  <svg id="bigx" viewBox="0 0 100 100">
+    <rect x="44" y="-10" width="12" height="120" transform="rotate(45 50 50)"/>
+    <rect x="44" y="-10" width="12" height="120" transform="rotate(-45 50 50)"/>
+  </svg>
+</div>
+<div class="grain" aria-hidden="true"></div>
+
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#top" aria-label="Finxty home">FIN<b>X</b>TY</a>
+    <nav class="nav-links" aria-label="Sections">
+      <a href="#services">Services</a>
+      <a href="#process">How we work</a>
+      <a href="#team">Team</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="btn solid" href="mailto:shankarfinxty@gmail.com">Talk to us
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+    </a>
+  </div>
+</header>
+
+<main id="top">
+
+<section class="hero" data-theme="dark">
+  <div class="wrap">
+    <h1 class="word" aria-label="Finxty">
+      <span>F</span><span>I</span><span>N</span><span class="x">X</span><span>T</span><span>Y</span>
+    </h1>
+    <div class="hero-row">
+      <p class="lede">Finance, compliance and filings for growing businesses — run by a team of professionals so you can run the business.</p>
+      <div class="cta">
+        <a class="btn solid" href="mailto:shankarfinxty@gmail.com">shankarfinxty@gmail.com</a>
+        <a class="btn" href="tel:+919177406648">+91 91774 06648</a>
+      </div>
+    </div>
+    <div class="scroll" aria-hidden="true"><span>Scroll</span><i></i></div>
+  </div>
+</section>
+
+<div class="ticker" aria-hidden="true">
+  <div class="track">
+    <span>Bookkeeping</span><span>Tax compliance</span><span>Corporate filings</span><span>FEMA &amp; RBI</span><span>Incorporations</span><span>Litigation &amp; representation</span><span>Transaction advisory</span>
+    <span>Bookkeeping</span><span>Tax compliance</span><span>Corporate filings</span><span>FEMA &amp; RBI</span><span>Incorporations</span><span>Litigation &amp; representation</span><span>Transaction advisory</span>
+  </div>
+</div>
+
+<section id="services" data-theme="light">
+  <div class="wrap services">
+    <div class="sticky">
+      <h2 class="reveal">Every<br>number,<br>every <em>filing.</em></h2>
+      <p class="head-p reveal" style="color:var(--muted);max-width:38ch;line-height:1.55">Seven services, one team, one point of contact. Open any of them to see what's inside.</p>
+    </div>
+    <ul class="svc" id="svc">
+      <li class="open">
+        <button aria-expanded="true">Bookkeeping <span class="plus">+</span></button>
+        <div class="body"><div>
+          <p>Day-to-day accounting kept current and clean — sales, purchases, expenses, bank and card reconciliations, fixed assets and month-end close. You get a set of books that is always ready for a lender, an investor or the tax department.</p>
+          <ul><li>Monthly close</li><li>Bank &amp; card reconciliation</li><li>Payables &amp; receivables</li><li>Payroll accounting</li><li>MIS &amp; management reports</li><li>Tally · Zoho · QuickBooks</li></ul>
+        </div></div>
+      </li>
+      <li>
+        <button aria-expanded="false">Tax compliance <span class="plus">+</span></button>
+        <div class="body"><div>
+          <p>All the returns, on time, every time — GST, income tax, TDS and TCS — with ITC reconciled against GSTR-2B before anything is filed, and advance tax planned instead of paid in a panic.</p>
+          <ul><li>GST returns &amp; annual return</li><li>ITC reconciliation</li><li>Income tax returns</li><li>TDS / TCS returns</li><li>Advance tax planning</li><li>Tax audit support</li></ul>
+        </div></div>
+      </li>
+      <li>
+        <button aria-expanded="false">Corporate filings <span class="plus">+</span></button>
+        <div class="body"><div>
+          <p>Companies and LLPs carry a calendar of MCA filings, board and shareholder meetings and statutory registers. We maintain that calendar so nothing slips and nothing attracts a late fee.</p>
+          <ul><li>Annual ROC filings</li><li>Board &amp; AGM minutes</li><li>Director changes &amp; DIN KYC</li><li>Share allotments &amp; transfers</li><li>Charge registrations</li><li>Statutory registers</li></ul>
+        </div></div>
+      </li>
+      <li>
+        <button aria-expanded="false">FEMA &amp; RBI compliance <span class="plus">+</span></button>
+        <div class="body"><div>
+          <p>Foreign investment coming in, or money going out, has its own rulebook. We handle the reporting to RBI and the paperwork around foreign shareholders, overseas subsidiaries and cross-border loans.</p>
+          <ul><li>FC-GPR / FC-TRS</li><li>Annual FLA return</li><li>ODI &amp; APR filings</li><li>ECB reporting</li><li>LRS &amp; remittance advice</li><li>Compounding applications</li></ul>
+        </div></div>
+      </li>
+      <li>
+        <button aria-expanded="false">Business incorporation <span class="plus">+</span></button>
+        <div class="body"><div>
+          <p>From choosing the right structure to the first bank account. Private limited, LLP, OPC or partnership — set up correctly, with every registration you need to start invoicing on day one.</p>
+          <ul><li>Structure advice</li><li>Company / LLP incorporation</li><li>PAN, TAN &amp; GST registration</li><li>Startup India &amp; MSME</li><li>Founders' agreements</li><li>Bank account &amp; first compliances</li></ul>
+        </div></div>
+      </li>
+      <li>
+        <button aria-expanded="false">Litigation &amp; representation <span class="plus">+</span></button>
+        <div class="body"><div>
+          <p>When a notice arrives, you need a reply that is specific, well-sequenced and grounded in law. We draft it, appear before the officer, and take the matter through appeal if it comes to that.</p>
+          <ul><li>Show cause notice replies</li><li>Assessment &amp; scrutiny</li><li>GST &amp; income tax appeals</li><li>Refund proceedings</li><li>Departmental representation</li><li>Tribunal matters</li></ul>
+        </div></div>
+      </li>
+      <li>
+        <button aria-expanded="false">Business consulting &amp; transaction advisory <span class="plus">+</span></button>
+        <div class="body"><div>
+          <p>Raising a round, buying a business, restructuring the group or planning an exit. We model the numbers, structure the deal for tax, and run the diligence so the decision is made on facts.</p>
+          <ul><li>Financial modelling &amp; valuation</li><li>Fundraise readiness</li><li>Due diligence</li><li>Deal structuring</li><li>Group restructuring</li><li>Virtual CFO</li></ul>
+        </div></div>
+      </li>
+    </ul>
+  </div>
+</section>
+
+<section id="process" data-theme="dark">
+  <div class="wrap">
+    <div class="head">
+      <h2 class="reveal">How we <em>work.</em></h2>
+      <p class="reveal">A fixed rhythm, so you always know what happens next and what you owe when.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="n">1</div><div><h3>Discover</h3><p>A short call to understand the business, the entity, the volumes and the deadlines already on the clock.</p></div></div>
+      <div class="step"><div class="n">2</div><div><h3>Set up</h3><p>Books migrated or opened, registrations checked, a compliance calendar built for your specific entity.</p></div></div>
+      <div class="step"><div class="n">3</div><div><h3>Run</h3><p>Monthly close, returns filed, filings done — with a single point of contact who answers the same day.</p></div></div>
+      <div class="step"><div class="n">4</div><div><h3>Report</h3><p>A monthly pack: numbers, what was filed, what is due, and what we recommend you do about it.</p></div></div>
+    </div>
+  </div>
+</section>
+
+<section id="team" data-theme="light">
+  <div class="wrap team">
+    <div>
+      <p class="big reveal">A team of professionals in accounting, tax and corporate law — <em>one desk</em> for all of it.</p>
+    </div>
+    <div class="pillars reveal">
+      <div>
+        <svg viewBox="0 0 24 24"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z"/><path d="M9 12l2 2 4-4"/></svg>
+        <div><h4>Qualified, accountable</h4><p>Work is done and reviewed by qualified professionals. Every filing has a name behind it.</p></div>
+      </div>
+      <div>
+        <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/></svg>
+        <div><h4>Deadline-first</h4><p>Your compliance calendar is built on day one. We chase you before the department does.</p></div>
+      </div>
+      <div>
+        <svg viewBox="0 0 24 24"><path d="M4 19V5M4 15l5-5 4 4 7-7"/><path d="M16 7h4v4"/></svg>
+        <div><h4>Built for growth</h4><p>Startups, SMEs and foreign-owned Indian entities — books and structures that scale with you.</p></div>
+      </div>
+      <div>
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg>
+        <div><h4>Remote across India</h4><p>Cloud books, e-signatures and video calls. Wherever you are, the work gets done.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" class="contact" data-theme="cobalt">
+  <div class="wrap">
+    <h2 class="reveal">Let's talk<br>numbers.</h2>
+    <div class="lines reveal">
+      <div class="line"><small>Email</small><a href="mailto:shankarfinxty@gmail.com">shankarfinxty@gmail.com</a></div>
+      <div class="line"><small>Phone</small><a href="tel:+919177406648">+91 91774 06648</a></div>
+    </div>
+    <p class="note reveal">Tell us what the business does and what's keeping you up at night. We'll reply within one working day with a clear scope and fee.</p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <a class="logo" href="#top">FIN<b>X</b>TY</a>
+    <span>Finance, compliance and filings for growing businesses.</span>
+    <span>© <span id="yr"></span> Finxty. All rights reserved.</span>
+  </div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+(function(){
+  var body=document.body, bar=document.getElementById('bar'), bigx=document.getElementById('bigx');
+  var reduce=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  document.getElementById('yr').textContent=new Date().getFullYear();
+
+  /* theme switching per section */
+  var sections=document.querySelectorAll('[data-theme]');
+  try{
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ body.setAttribute('data-theme',e.target.getAttribute('data-theme')); } });
+    },{rootMargin:'-45% 0px -45% 0px',threshold:0});
+    sections.forEach(function(s){ if(s!==body) io.observe(s); });
+    var ro=new IntersectionObserver(function(entries){
+      entries.forEach(function(e){ if(e.isIntersecting){ e.target.classList.add('in'); ro.unobserve(e.target);} });
+    },{threshold:.15});
+    document.querySelectorAll('.reveal').forEach(function(el){ ro.observe(el); });
+  }catch(err){ document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('in'); }); }
+
+  /* ---------- 3D X (three.js) with SVG fallback ---------- */
+  var gl=null, prog=0, mx=0, my=0, smx=0, smy=0;
+  var themeColors={dark:{x:0x4A6A9E,edge:0x8FA6C9,light:0.9},light:{x:0x3E5A88,edge:0x7A8FB3,light:1.1},cobalt:{x:0x8FA6C9,edge:0xD4DCE8,light:0.8}};
+  function initGL(){
+    if(!window.THREE) return;
+    var canvas=document.getElementById('gl');
+    var renderer;
+    try{ renderer=new THREE.WebGLRenderer({canvas:canvas,antialias:true,alpha:true}); }catch(e){ return; }
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio||1,2));
+    renderer.setSize(window.innerWidth,window.innerHeight,false);
+    var scene=new THREE.Scene();
+    var cam=new THREE.PerspectiveCamera(38,window.innerWidth/window.innerHeight,.1,100);
+    cam.position.set(0,0,11);
+
+    var mat=new THREE.MeshStandardMaterial({color:0x4A6A9E,metalness:.75,roughness:.35,transparent:true,opacity:.55});
+    var edgeMat=new THREE.LineBasicMaterial({color:0x8FA6C9,transparent:true,opacity:.45});
+    var group=new THREE.Group();
+    var arm=new THREE.BoxGeometry(1.15,7.2,1.15);
+    [Math.PI/4,-Math.PI/4].forEach(function(r){
+      var m=new THREE.Mesh(arm,mat); m.rotation.z=r; group.add(m);
+      var e=new THREE.LineSegments(new THREE.EdgesGeometry(arm),edgeMat); e.rotation.z=r; group.add(e);
+    });
+    scene.add(group);
+
+    /* orbiting rings — the "tech" halo */
+    var ringMat=new THREE.LineBasicMaterial({color:0x8FA6C9,transparent:true,opacity:.28});
+    var rings=[];
+    for(var i=0;i<3;i++){
+      var ring=new THREE.LineLoop(new THREE.RingGeometry(5.2+i*.9,5.2+i*.9,96).setIndex(null),ringMat);
+      ring.rotation.x=Math.PI/2+i*.35; ring.rotation.y=i*.6; scene.add(ring); rings.push(ring);
+    }
+    /* particle field */
+    var pc=420, pos=new Float32Array(pc*3);
+    for(var j=0;j<pc*3;j++){ pos[j]=(Math.random()-.5)*(j%3===2?16:26); }
+    var pg=new THREE.BufferGeometry(); pg.setAttribute('position',new THREE.BufferAttribute(pos,3));
+    var pts=new THREE.Points(pg,new THREE.PointsMaterial({color:0x8FA6C9,size:.05,transparent:true,opacity:.6}));
+    scene.add(pts);
+
+    var key=new THREE.DirectionalLight(0xffffff,.9); key.position.set(4,6,8); scene.add(key);
+    var rim=new THREE.DirectionalLight(0xB8C6DC,.5); rim.position.set(-6,-3,-4); scene.add(rim);
+    scene.add(new THREE.AmbientLight(0xffffff,.35));
+
+    var curTheme='dark', tint=new THREE.Color(0x4A6A9E), edgeTint=new THREE.Color(0x8FA6C9);
+    function applyTheme(){
+      var t=body.getAttribute('data-theme'); if(t===curTheme) return; curTheme=t;
+      var c=themeColors[t]||themeColors.dark;
+      tint.set(c.x); edgeTint.set(c.edge); key.intensity=c.light;
+      mat.opacity = t==='light'?.35:.55;
+    }
+    var t0=performance.now();
+    function loop(now){
+      var t=(now-t0)/1000;
+      applyTheme();
+      mat.color.lerp(tint,.05); edgeMat.color.lerp(edgeTint,.05); ringMat.color.lerp(edgeTint,.05);
+      smx+=(mx-smx)*.06; smy+=(my-smy)*.06;
+      if(!reduce){
+        group.rotation.y=prog*Math.PI*2+smx*.6+Math.sin(t*.3)*.08;
+        group.rotation.x=smy*.4+Math.sin(t*.45)*.06;
+        group.rotation.z=prog*Math.PI;
+        var sc=1+prog*.35; group.scale.set(sc,sc,sc);
+        group.position.y=Math.sin(t*.8)*.12;
+        rings.forEach(function(r,i){ r.rotation.z=t*(.08+i*.03)+prog*2; r.rotation.y=i*.6+smx*.3; });
+        pts.rotation.y=t*.02+prog*.8; pts.rotation.x=prog*.4;
+      }
+      renderer.render(scene,cam);
+      requestAnimationFrame(loop);
+    }
+    requestAnimationFrame(loop);
+    window.addEventListener('resize',function(){
+      renderer.setSize(window.innerWidth,window.innerHeight,false);
+      cam.aspect=window.innerWidth/window.innerHeight; cam.updateProjectionMatrix();
+    });
+    window.addEventListener('pointermove',function(e){
+      mx=(e.clientX/window.innerWidth-.5)*2; my=-(e.clientY/window.innerHeight-.5)*2;
+    },{passive:true});
+    document.getElementById('xmark').classList.add('gl');
+    gl=true;
+  }
+  initGL();
+
+  /* scroll progress (+ SVG fallback rotation) */
+  var ticking=false;
+  function frame(){
+    var max=document.documentElement.scrollHeight-window.innerHeight;
+    prog=max>0?window.scrollY/max:0;
+    bar.style.transform='scaleX('+prog+')';
+    if(!gl && !reduce){ bigx.style.transform='rotate('+(prog*180)+'deg) scale('+(1+prog*.9)+')'; }
+    ticking=false;
+  }
+  window.addEventListener('scroll',function(){ if(!ticking){ requestAnimationFrame(frame); ticking=true; } },{passive:true});
+  frame();
+
+  /* 3D tilt on cards (pointer only) */
+  if(!reduce && window.matchMedia('(hover:hover)').matches){
+    document.querySelectorAll('.step, .pillars > div').forEach(function(card){
+      card.addEventListener('pointermove',function(e){
+        var r=card.getBoundingClientRect();
+        var x=(e.clientX-r.left)/r.width-.5, y=(e.clientY-r.top)/r.height-.5;
+        card.style.transform='rotateX('+(-y*10)+'deg) rotateY('+(x*12)+'deg) translateZ(8px)';
+      });
+      card.addEventListener('pointerleave',function(){ card.style.transform=''; });
+    });
+  }
+
+  /* services accordion (one open at a time) */
+  var items=document.querySelectorAll('#svc > li');
+  items.forEach(function(li){
+    var b=li.querySelector('button');
+    b.addEventListener('click',function(){
+      var open=li.classList.contains('open');
+      items.forEach(function(o){ o.classList.remove('open'); o.querySelector('button').setAttribute('aria-expanded','false'); });
+      if(!open){ li.classList.add('open'); b.setAttribute('aria-expanded','true'); }
+    });
+  });
+})();
+</script>
+</body>
+</html>

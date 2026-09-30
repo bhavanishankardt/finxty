@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<title>Finxty — Finance, compliance and filings for growing businesses</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&amp;family=Plus+Jakarta+Sans:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<style>
+html{scroll-behavior:smooth}
+*{box-sizing:border-box}
+body{margin:0;--bg:#0B0F17;--fg:#EEF0F3;--muted:#8C97AB;--line:rgba(154,167,194,.2);--x:#7C98C8;background:var(--bg);color:var(--fg);font-family:'Plus Jakarta Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased;overflow-x:hidden;transition:background-color .8s cubic-bezier(.2,.7,.2,1),color .8s cubic-bezier(.2,.7,.2,1)}
+a{color:inherit;text-decoration:none;transition:color .3s}
+a:hover{color:var(--x)}
+::selection{background:var(--x);color:var(--bg)}
+</style>
+</helmet>
+<div style="position:relative">
+<canvas data-gl="1" aria-hidden="true" style="position:fixed;inset:0;width:100%;height:100%;z-index:0;pointer-events:none;display:block;opacity:0"></canvas>
+<div aria-hidden="true" style="position:fixed;inset:0;z-index:1;pointer-events:none;background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:96px 96px;opacity:.3;-webkit-mask-image:radial-gradient(ellipse at 60% 40%,#000 10%,transparent 70%);mask-image:radial-gradient(ellipse at 60% 40%,#000 10%,transparent 70%)"></div>
+<div aria-hidden="true" style="position:fixed;left:0;top:0;height:2px;width:100%;z-index:60;pointer-events:none"><div data-bar="1" style="height:100%;background:var(--x);transform-origin:left;transform:scaleX(0)"></div></div>
+
+<div data-hud="1" aria-hidden="true" style="position:fixed;right:18px;bottom:18px;z-index:40;white-space:nowrap;display:flex;align-items:center;gap:14px;padding:10px 16px;border:1px solid var(--line);border-radius:999px;background:color-mix(in srgb,var(--bg) 72%,transparent);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-variant-numeric:tabular-nums">
+  <span>Floor <span data-hud-floor="1" style="color:var(--fg)">00</span> / 07</span>
+  <span style="display:flex;gap:3px;align-items:flex-end;height:12px">
+    <span data-tick="1" style="width:4px;height:6px;background:var(--line)"></span>
+    <span data-tick="1" style="width:4px;height:7px;background:var(--line)"></span>
+    <span data-tick="1" style="width:4px;height:8px;background:var(--line)"></span>
+    <span data-tick="1" style="width:4px;height:9px;background:var(--line)"></span>
+    <span data-tick="1" style="width:4px;height:10px;background:var(--line)"></span>
+    <span data-tick="1" style="width:4px;height:11px;background:var(--line)"></span>
+    <span data-tick="1" style="width:4px;height:12px;background:var(--line)"></span>
+  </span>
+  <span>Build <span data-hud-pct="1" style="color:var(--fg)">000</span>%</span>
+</div>
+
+<header style="position:sticky;top:0;z-index:50;border-bottom:1px solid var(--line);background:color-mix(in srgb,var(--bg) 72%,transparent);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px)">
+  <div style="max-width:1376px;margin:0 auto;padding:14px clamp(20px,5vw,48px);display:flex;align-items:center;justify-content:space-between;gap:16px">
+    <a href="#top" aria-label="Finxty home" style="font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.06em;line-height:1;display:inline-flex;color:var(--fg)">FIN<span data-logox="1" style="display:inline-block;color:var(--x)">X</span>TY</a>
+    <nav data-navlinks="1" aria-label="Sections" style="display:flex;gap:clamp(16px,2.4vw,32px);font-size:14px;font-weight:500;color:var(--muted);white-space:nowrap;min-width:0">
+      <a href="#services" style-hover="color:var(--fg)">Services</a>
+      <a href="#process" style-hover="color:var(--fg)">How we work</a>
+      <a href="#team" style-hover="color:var(--fg)">Team</a>
+      <a href="#contact" style-hover="color:var(--fg)">Contact</a>
+    </nav>
+    <a href="mailto:shankarfinxty@gmail.com" style="display:inline-flex;align-items:center;gap:10px;padding:11px 20px;border-radius:999px;background:var(--x);border:1px solid var(--x);color:var(--bg);font-weight:600;font-size:14px;white-space:nowrap;flex:none;transition:transform .3s,background-color .3s" style-hover="transform:translateY(-1px);background:var(--fg);border-color:var(--fg);color:var(--bg)">Talk to us <span aria-hidden="true">→</span></a>
+  </div>
+</header>
+
+<main style="position:relative;z-index:2">
+
+<section id="top" data-theme="dark" data-glop="1" data-gloff=".22" style="min-height:calc(100svh - 62px);display:flex;flex-direction:column;justify-content:flex-end;padding:120px 0 64px;overflow:hidden">
+  <div style="max-width:1376px;width:100%;margin:0 auto;padding:0 clamp(20px,5vw,48px)">
+    <div data-heroword="1" style="will-change:transform">
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:20px">
+        <span data-scramble="1">Finance · Compliance · Filings</span>
+        <span data-scramble="1">Remote across India</span>
+      </div>
+      <h1 aria-label="Finxty" style="margin:0;font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(96px,23vw,340px);line-height:.82;letter-spacing:.005em;display:flex;user-select:none">
+        <span data-letter="1" style="display:inline-block">F</span><span data-letter="1" style="display:inline-block">I</span><span data-letter="1" style="display:inline-block">N</span><span data-letter="1" data-xletter="1" style="display:inline-block;color:var(--x);transform-origin:50% 55%">X</span><span data-letter="1" style="display:inline-block">T</span><span data-letter="1" style="display:inline-block">Y</span>
+      </h1>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:32px 64px;align-items:flex-end;justify-content:space-between;margin-top:40px;border-top:1px solid var(--line);padding-top:32px">
+      <p data-intro="1" style="margin:0;max-width:30ch;font-size:clamp(19px,2.1vw,26px);line-height:1.38;text-wrap:pretty">Finance, compliance and filings for growing businesses — run by a team of professionals so you can run the business.</p>
+      <div data-intro="1" style="display:flex;flex-wrap:wrap;gap:12px">
+        <a href="mailto:shankarfinxty@gmail.com" style="display:inline-flex;align-items:center;gap:10px;padding:15px 24px;border-radius:999px;background:var(--x);border:1px solid var(--x);color:var(--bg);font-weight:600;font-size:15px;transition:transform .3s,background-color .3s" style-hover="transform:translateY(-2px);background:var(--fg);border-color:var(--fg);color:var(--bg)">shankarfinxty@gmail.com</a>
+        <a href="tel:+919177406648" style="display:inline-flex;align-items:center;gap:10px;padding:15px 24px;border-radius:999px;border:1px solid var(--fg);color:var(--fg);font-weight:600;font-size:15px;font-variant-numeric:tabular-nums;transition:transform .3s,background-color .3s" style-hover="transform:translateY(-2px);background:var(--fg);color:var(--bg)">+91 91774 06648</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div aria-hidden="true" style="border-top:1px solid var(--line);border-bottom:1px solid var(--line);overflow:hidden;padding:18px 0;background:color-mix(in srgb,var(--bg) 55%,transparent)">
+  <div data-ticker="1" style="display:flex;width:max-content;will-change:transform">
+    <sc-for list="{{ tickerItems }}" as="t" hint-placeholder-count="14"><span style="font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:.08em;line-height:1;display:inline-flex;align-items:center;gap:40px;padding-right:40px;white-space:nowrap">{{ t }}<span style="color:var(--x)">×</span></span></sc-for>
+  </div>
+</div>
+
+<section data-theme="dark" data-glop=".7" data-gloff=".24" style="padding:clamp(88px,12vw,150px) 0">
+  <div style="max-width:1376px;margin:0 auto;padding:0 clamp(20px,5vw,48px)">
+    <div style="display:flex;align-items:center;gap:14px;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)"><span style="color:var(--x)">01</span><span style="width:40px;height:1px;background:var(--line)"></span><span data-scramble="1">At a glance</span></div>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));margin-top:36px;border-top:1px solid var(--line)">
+      <sc-for list="{{ stats }}" as="s" hint-placeholder-count="4">
+        <div data-reveal="1" style="padding:28px 24px 28px 0;border-bottom:1px solid var(--line)">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(104px,12vw,184px);line-height:1;height:1em"><span data-odo="{{ s.n }}"></span></div>
+          <div style="margin-top:14px;font-size:15px;line-height:1.5;color:var(--muted);max-width:22ch">{{ s.label }}</div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="services" data-theme="light" data-glop=".38" data-gloff="-.28" style="padding:clamp(88px,12vw,150px) 0">
+  <div style="max-width:1376px;margin:0 auto;padding:0 clamp(20px,5vw,48px);display:flex;flex-wrap:wrap;gap:56px 80px;align-items:flex-start">
+    <div data-sticky="1" style="flex:1 1 320px;top:110px">
+      <div style="display:flex;align-items:center;gap:14px;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)"><span style="color:var(--x)">02</span><span style="width:40px;height:1px;background:var(--line)"></span><span data-scramble="1">Services</span></div>
+      <h2 data-reveal="1" style="font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(60px,7.6vw,116px);line-height:.88;letter-spacing:.01em;margin:26px 0 22px">Every<br>number,<br>every <span style="color:var(--x)">filing.</span></h2>
+      <p data-reveal="1" style="margin:0;color:var(--muted);max-width:34ch;line-height:1.6;font-size:17px">Seven services, one team, one point of contact.</p>
+      <div style="margin-top:44px;display:flex;align-items:flex-end;gap:18px;border-top:1px solid var(--line);padding-top:20px">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:clamp(96px,9vw,150px);line-height:1;height:1em;color:var(--x)"><span data-svc-counter="1"></span></div>
+        <div style="padding-bottom:16px;min-width:0">
+          <div style="font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)">of 07 · now reading</div>
+          <div data-svc-name="1" style="font-weight:600;font-size:17px;margin-top:6px">Bookkeeping</div>
+        </div>
+      </div>
+    </div>
+    <div style="flex:1.6 1 480px;min-width:0;border-top:1px solid var(--line)">
+      <sc-for list="{{ services }}" as="s" hint-placeholder-count="7">
+        <article data-svc="{{ $index }}" data-reveal="1" style="padding:44px 0 48px;border-bottom:1px solid var(--line);display:grid;grid-template-columns:52px minmax(0,1fr);gap:8px 20px">
+          <div data-svc-idx="1" style="font-size:13px;font-weight:700;letter-spacing:.12em;color:var(--muted);padding-top:14px;font-variant-numeric:tabular-nums;transition:color .4s">{{ s.idx }}</div>
+          <div>
+            <h3 data-svc-title="1" style="font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(38px,4.2vw,60px);line-height:.95;letter-spacing:.015em;margin:0 0 18px;transition:color .4s">{{ s.title }}</h3>
+            <p style="margin:0 0 24px;color:var(--muted);font-size:16.5px;line-height:1.68;max-width:58ch;text-wrap:pretty">{{ s.body }}</p>
+            <div style="display:flex;flex-wrap:wrap;gap:8px">
+              <sc-for list="{{ s.tags }}" as="t" hint-placeholder-count="6"><span style="border:1px solid var(--line);border-radius:999px;padding:6px 13px;font-size:13px;font-weight:500">{{ t }}</span></sc-for>
+            </div>
+          </div>
+        </article>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="process" data-theme="dark" data-glop=".32" data-gloff="0" style="padding:clamp(88px,12vw,150px) 0">
+  <div style="max-width:1376px;margin:0 auto;padding:0 clamp(20px,5vw,48px)">
+    <div style="display:flex;align-items:center;gap:14px;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)"><span style="color:var(--x)">03</span><span style="width:40px;height:1px;background:var(--line)"></span><span data-scramble="1">Process</span></div>
+    <div style="display:flex;flex-wrap:wrap;gap:24px 64px;align-items:flex-end;justify-content:space-between;margin-top:26px">
+      <h2 data-reveal="1" style="font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(60px,8vw,124px);line-height:.88;letter-spacing:.01em;margin:0">How we <span style="color:var(--x)">work.</span></h2>
+      <p data-reveal="1" style="margin:0;color:var(--muted);max-width:40ch;font-size:18px;line-height:1.6">A fixed rhythm, so you always know what happens next and what you owe when.</p>
+    </div>
+    <div data-steps="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));margin-top:64px;padding:1px 0 0 1px">
+      <sc-for list="{{ steps }}" as="s" hint-placeholder-count="4">
+        <div style="border:1px solid var(--line);margin:-1px 0 0 -1px;padding:30px 28px 34px;min-height:320px;display:flex;flex-direction:column;justify-content:space-between;gap:36px;position:relative;background:color-mix(in srgb,var(--bg) 40%,transparent)">
+          <div style="position:absolute;left:-1px;right:-1px;top:-1px;height:3px;overflow:hidden"><div data-step-fill="1" style="height:100%;background:var(--x);transform:scaleX(0);transform-origin:left"></div></div>
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:96px;line-height:1;height:1em;color:var(--x)"><span data-odo="{{ s.n }}" data-odo-manual="1"></span></div>
+          <div>
+            <h3 style="font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:36px;letter-spacing:.03em;line-height:1;margin:0 0 12px">{{ s.title }}</h3>
+            <p style="margin:0;color:var(--muted);font-size:15.5px;line-height:1.6;text-wrap:pretty">{{ s.body }}</p>
+          </div>
+        </div>
+      </sc-for>
+    </div>
+  </div>
+</section>
+
+<section id="team" data-theme="light" data-glop=".32" data-gloff=".26" style="padding:clamp(88px,12vw,150px) 0">
+  <div style="max-width:1376px;margin:0 auto;padding:0 clamp(20px,5vw,48px)">
+    <div style="display:flex;align-items:center;gap:14px;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)"><span style="color:var(--x)">04</span><span style="width:40px;height:1px;background:var(--line)"></span><span data-scramble="1">Team</span></div>
+    <div style="display:flex;flex-wrap:wrap;gap:56px 88px;align-items:center;margin-top:30px">
+      <p data-reveal="1" style="flex:1.1 1 420px;margin:0;font-family:'Bebas Neue',sans-serif;font-size:clamp(46px,5.8vw,88px);line-height:.95;letter-spacing:.01em;text-wrap:balance">A team of professionals in accounting, tax and corporate law — <span style="color:var(--x)">one desk</span> for all of it.</p>
+      <div style="flex:1 1 360px;border-top:1px solid var(--line)">
+        <div data-reveal="1" style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:20px;padding:24px 0;border-bottom:1px solid var(--line)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:26px;height:26px;color:var(--x);margin-top:2px"><path d="M12 3l8 4v5c0 5-3.5 8-8 9-4.5-1-8-4-8-9V7l8-4z"></path><path d="M9 12l2 2 4-4"></path></svg>
+          <div><h4 style="margin:0 0 6px;font-weight:600;font-size:17px">Qualified, accountable</h4><p style="margin:0;color:var(--muted);font-size:15.5px;line-height:1.6">Work is done and reviewed by qualified professionals. Every filing has a name behind it.</p></div>
+        </div>
+        <div data-reveal="1" style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:20px;padding:24px 0;border-bottom:1px solid var(--line)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:26px;height:26px;color:var(--x);margin-top:2px"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M3 9h18M8 2v4M16 2v4"></path></svg>
+          <div><h4 style="margin:0 0 6px;font-weight:600;font-size:17px">Deadline-first</h4><p style="margin:0;color:var(--muted);font-size:15.5px;line-height:1.6">Your compliance calendar is built on day one. We chase you before the department does.</p></div>
+        </div>
+        <div data-reveal="1" style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:20px;padding:24px 0;border-bottom:1px solid var(--line)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:26px;height:26px;color:var(--x);margin-top:2px"><path d="M4 19V5M4 15l5-5 4 4 7-7"></path><path d="M16 7h4v4"></path></svg>
+          <div><h4 style="margin:0 0 6px;font-weight:600;font-size:17px">Built for growth</h4><p style="margin:0;color:var(--muted);font-size:15.5px;line-height:1.6">Startups, SMEs and foreign-owned Indian entities — books and structures that scale with you.</p></div>
+        </div>
+        <div data-reveal="1" style="display:grid;grid-template-columns:28px minmax(0,1fr);gap:20px;padding:24px 0;border-bottom:1px solid var(--line)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" style="width:26px;height:26px;color:var(--x);margin-top:2px"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"></path></svg>
+          <div><h4 style="margin:0 0 6px;font-weight:600;font-size:17px">Remote across India</h4><p style="margin:0;color:var(--muted);font-size:15.5px;line-height:1.6">Cloud books, e-signatures and video calls. Wherever you are, the work gets done.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contact" data-theme="cobalt" data-glop=".75" data-gloff=".24" style="min-height:94svh;display:flex;align-items:center;padding:clamp(88px,12vw,150px) 0">
+  <div style="max-width:1376px;width:100%;margin:0 auto;padding:0 clamp(20px,5vw,48px)">
+    <div style="display:flex;align-items:center;gap:14px;font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted)"><span style="color:var(--x)">05</span><span style="width:40px;height:1px;background:var(--line)"></span><span data-scramble="1">Contact</span></div>
+    <h2 data-reveal="1" style="font-family:'Bebas Neue',sans-serif;font-weight:400;font-size:clamp(76px,12vw,190px);line-height:.85;letter-spacing:.01em;margin:26px 0 48px">Let's talk<br><span style="color:var(--x)">numbers.</span></h2>
+    <div data-reveal="1" style="display:grid">
+      <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 28px;border-top:1px solid var(--line);padding:24px 0">
+        <span style="font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);min-width:72px">Email</span>
+        <a href="mailto:shankarfinxty@gmail.com" data-scramble="1" style="font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,6vw,80px);letter-spacing:.02em;line-height:1;overflow-wrap:anywhere">shankarfinxty@gmail.com</a>
+      </div>
+      <div style="display:flex;flex-wrap:wrap;align-items:baseline;gap:8px 28px;border-top:1px solid var(--line);border-bottom:1px solid var(--line);padding:24px 0">
+        <span style="font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);min-width:72px">Phone</span>
+        <a href="tel:+919177406648" data-scramble="1" style="font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,6vw,80px);letter-spacing:.02em;line-height:1">+91 91774 06648</a>
+      </div>
+    </div>
+    <p data-reveal="1" style="margin:32px 0 0;color:var(--muted);max-width:52ch;font-size:17px;line-height:1.6">Tell us what the business does and what's keeping you up at night. We'll reply within one working day with a clear scope and fee.</p>
+  </div>
+</section>
+
+</main>
+
+<footer style="position:relative;z-index:2;border-top:1px solid var(--line);padding:36px 0 44px;font-size:14px;color:var(--muted)">
+  <div style="max-width:1376px;margin:0 auto;padding:0 clamp(20px,5vw,48px);display:flex;flex-wrap:wrap;gap:16px 32px;justify-content:space-between;align-items:center">
+    <a href="#top" style="font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:.06em;line-height:1;color:var(--fg)">FIN<span style="color:var(--x)">X</span>TY</a>
+    <span>Finance, compliance and filings for growing businesses.</span>
+    <span>© {{ year }} Finxty. All rights reserved.</span>
+  </div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  data = {
+    tickerItems: (() => { const a = ['Bookkeeping','Tax compliance','Corporate filings','FEMA & RBI','Incorporations','Litigation & representation','Transaction advisory']; return a.concat(a); })(),
+    stats: [
+      { n: '07', label: 'Services under one roof' },
+      { n: '01', label: 'Point of contact for all of it' },
+      { n: '04', label: 'Steps in a fixed working rhythm' },
+      { n: '01', label: 'Working day to a clear scope and fee' }
+    ],
+    services: [
+      { idx: '01', title: 'Bookkeeping', body: 'Day-to-day accounting kept current and clean — sales, purchases, expenses, bank and card reconciliations, fixed assets and month-end close. You get a set of books that is always ready for a lender, an investor or the tax department.', tags: ['Monthly close','Bank & card reconciliation','Payables & receivables','Payroll accounting','MIS & management reports','Tally · Zoho · QuickBooks'] },
+      { idx: '02', title: 'Tax compliance', body: 'All the returns, on time, every time — GST, income tax, TDS and TCS — with ITC reconciled against GSTR-2B before anything is filed, and advance tax planned instead of paid in a panic.', tags: ['GST returns & annual return','ITC reconciliation','Income tax returns','TDS / TCS returns','Advance tax planning','Tax audit support'] },
+      { idx: '03', title: 'Corporate filings', body: 'Companies and LLPs carry a calendar of MCA filings, board and shareholder meetings and statutory registers. We maintain that calendar so nothing slips and nothing attracts a late fee.', tags: ['Annual ROC filings','Board & AGM minutes','Director changes & DIN KYC','Share allotments & transfers','Charge registrations','Statutory registers'] },
+      { idx: '04', title: 'FEMA & RBI compliance', body: 'Foreign investment coming in, or money going out, has its own rulebook. We handle the reporting to RBI and the paperwork around foreign shareholders, overseas subsidiaries and cross-border loans.', tags: ['FC-GPR / FC-TRS','Annual FLA return','ODI & APR filings','ECB reporting','LRS & remittance advice','Compounding applications'] },
+      { idx: '05', title: 'Business incorporation', body: 'From choosing the right structure to the first bank account. Private limited, LLP, OPC or partnership — set up correctly, with every registration you need to start invoicing on day one.', tags: ['Structure advice','Company / LLP incorporation','PAN, TAN & GST registration','Startup India & MSME',"Founders' agreements",'Bank account & first compliances'] },
+      { idx: '06', title: 'Litigation & representation', body: 'When a notice arrives, you need a reply that is specific, well-sequenced and grounded in law. We draft it, appear before the officer, and take the matter through appeal if it comes to that.', tags: ['Show cause notice replies','Assessment & scrutiny','GST & income tax appeals','Refund proceedings','Departmental representation','Tribunal matters'] },
+      { idx: '07', title: 'Business consulting & transaction advisory', body: 'Raising a round, buying a business, restructuring the group or planning an exit. We model the numbers, structure the deal for tax, and run the diligence so the decision is made on facts.', tags: ['Financial modelling & valuation','Fundraise readiness','Due diligence','Deal structuring','Group restructuring','Virtual CFO'] }
+    ],
+    steps: [
+      { n: '01', title: 'Discover', body: 'A short call to understand the business, the entity, the volumes and the deadlines already on the clock.' },
+      { n: '02', title: 'Set up', body: 'Books migrated or opened, registrations checked, a compliance calendar built for your specific entity.' },
+      { n: '03', title: 'Run', body: 'Monthly close, returns filed, filings done — with a single point of contact who answers the same day.' },
+      { n: '04', title: 'Report', body: 'A monthly pack: numbers, what was filed, what is due, and what we recommend you do about it.' }
+    ]
+  };
+
+  THEMES = {
+    dark:   { bg: '#0B0F17', fg: '#EEF0F3', muted: '#8C97AB', line: 'rgba(154,167,194,.2)', x: '#7C98C8' },
+    light:  { bg: '#EEF0F3', fg: '#0B0F17', muted: '#566175', line: 'rgba(11,15,23,.13)', x: '#3E5A88' },
+    cobalt: { bg: '#2B3B58', fg: '#F1F3F6', muted: '#C9D3E3', line: 'rgba(255,255,255,.2)', x: '#B8C6DC' }
+  };
+
+  renderVals() { return { ...this.data, year: String(new Date().getFullYear()) }; }
+
+  componentDidMount() {
+    const d = document, $$ = s => Array.from(d.querySelectorAll(s));
+    this.alive = true; this.cleanups = [];
+    this.reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    this.t0 = performance.now(); this.sP = 0; this.tx = 0; this.vel = 0;
+    this.glOp = 0; this.glOff = .22; this.glTarget = { op: 1, off: .22 };
+    this.q = {
+      bar: d.querySelector('[data-bar]'), logoX: d.querySelector('[data-logox]'), hero: d.querySelector('[data-heroword]'),
+      ticker: d.querySelector('[data-ticker]'), steps: d.querySelector('[data-steps]'), fills: $$('[data-step-fill]'),
+      stepOdos: $$('[data-odo-manual]'), floor: d.querySelector('[data-hud-floor]'), pct: d.querySelector('[data-hud-pct]'),
+      ticks: $$('[data-tick]'), canvas: d.querySelector('[data-gl]'), counter: d.querySelector('[data-svc-counter]'),
+      svcName: d.querySelector('[data-svc-name]'), svcs: $$('[data-svc]'), nav: d.querySelector('[data-navlinks]'), sticky: d.querySelector('[data-sticky]')
+    };
+    this.theme = null; this.setTheme('dark');
+
+    const mq = matchMedia('(min-width: 900px)'), mqH = matchMedia('(min-width: 1100px)');
+    const hud = d.querySelector('[data-hud]');
+    const respH = () => { if (hud) hud.style.display = mqH.matches ? 'flex' : 'none'; };
+    respH(); mqH.addEventListener('change', respH); this.cleanups.push(() => mqH.removeEventListener('change', respH));
+    const resp = () => { this.wide = mq.matches; if (this.q.nav) this.q.nav.style.display = mq.matches ? 'flex' : 'none'; if (this.q.sticky) this.q.sticky.style.position = mq.matches ? 'sticky' : 'static'; };
+    resp(); mq.addEventListener('change', resp); this.cleanups.push(() => mq.removeEventListener('change', resp));
+
+    this.intro();
+
+    $$('[data-odo]').forEach(el => this.buildOdo(el, el.getAttribute('data-odo')));
+    if (this.q.counter) { this.buildOdo(this.q.counter, '01'); this.setOdo(this.q.counter, '01', true); }
+
+    const obs = (fn, opts) => { const o = new IntersectionObserver(es => es.forEach(e => fn(e, o)), opts); this.cleanups.push(() => o.disconnect()); return o; };
+
+    const tio = obs(e => { if (!e.isIntersecting) return; const s = e.target; this.setTheme(s.dataset.theme); this.glTarget = { op: +s.dataset.glop, off: +s.dataset.gloff }; }, { rootMargin: '-45% 0px -45% 0px' });
+    $$('[data-theme]').forEach(s => tio.observe(s));
+
+    const ease = 'opacity .9s ease, transform .9s cubic-bezier(.2,.8,.2,1)';
+    const rio = obs((e, o) => { if (!e.isIntersecting) return; e.target.style.opacity = '1'; e.target.style.transform = 'none'; o.unobserve(e.target); }, { threshold: .12 });
+    $$('[data-reveal]').forEach(el => {
+      if (this.reduce || el.getBoundingClientRect().top < innerHeight * .92) return;
+      el.style.opacity = '0'; el.style.transform = 'translateY(32px)'; el.style.transition = ease; rio.observe(el);
+    });
+
+    const oio = obs((e, o) => { if (!e.isIntersecting) return; this.rollOdo(e.target); o.unobserve(e.target); }, { threshold: .4 });
+    $$('[data-odo]:not([data-odo-manual])').forEach(el => oio.observe(el));
+
+    const sio = obs((e, o) => { if (!e.isIntersecting) return; this.scramble(e.target); o.unobserve(e.target); }, { threshold: .5 });
+    $$('[data-scramble]').forEach(el => sio.observe(el));
+
+    const vio = obs(e => { if (e.isIntersecting) this.activate(+e.target.getAttribute('data-svc')); }, { rootMargin: '-38% 0px -58% 0px' });
+    this.q.svcs.forEach(el => vio.observe(el));
+    this.activate(0);
+
+    this.onMove = e => { this.mx = (e.clientX / innerWidth - .5) * 2; this.my = (e.clientY / innerHeight - .5) * 2; };
+    addEventListener('pointermove', this.onMove, { passive: true });
+    this.cleanups.push(() => removeEventListener('pointermove', this.onMove));
+
+    let tries = 0;
+    const waitGL = () => { if (!this.alive) return; if (window.THREE) this.gl = this.initGL(); else if (tries++ < 60) setTimeout(waitGL, 100); };
+    waitGL();
+
+    this.lastY = scrollY;
+    this.loop = this.loop.bind(this);
+    this.raf = requestAnimationFrame(this.loop);
+  }
+
+  componentWillUnmount() {
+    this.alive = false; cancelAnimationFrame(this.raf);
+    (this.cleanups || []).forEach(f => f());
+    if (this.gl) this.gl.dispose();
+  }
+
+  setTheme(t) {
+    if (!t || t === this.theme) return; this.theme = t;
+    const v = this.THEMES[t], s = document.body.style;
+    s.setProperty('--bg', v.bg); s.setProperty('--fg', v.fg); s.setProperty('--muted', v.muted); s.setProperty('--line', v.line); s.setProperty('--x', v.x);
+  }
+
+  intro() {
+    if (this.reduce || !Element.prototype.animate) return;
+    const E = 'cubic-bezier(.2,.8,.2,1)';
+    document.querySelectorAll('[data-letter]').forEach((el, i) => el.animate([{ transform: 'translateY(.45em) rotate(3deg)', opacity: 0 }, { transform: 'none', opacity: 1 }], { duration: 950, delay: 60 + i * 70, easing: E, fill: 'backwards' }));
+    const x = document.querySelector('[data-xletter]');
+    if (x) x.animate([{ transform: 'rotate(0deg)' }, { transform: 'rotate(360deg)' }], { duration: 1500, delay: 1050, easing: E });
+    document.querySelectorAll('[data-intro]').forEach((el, i) => el.animate([{ opacity: 0, transform: 'translateY(16px)' }, { opacity: 1, transform: 'none' }], { duration: 900, delay: 700 + i * 150, easing: E, fill: 'backwards' }));
+  }
+
+  buildOdo(el, val) {
+    el.textContent = ''; el.setAttribute('aria-label', val); el.style.display = 'inline-flex'; el._cols = [];
+    for (const ch of String(val)) {
+      if (!/\d/.test(ch)) { const s = document.createElement('span'); s.textContent = ch; el.appendChild(s); continue; }
+      const win = document.createElement('span'); win.setAttribute('aria-hidden', 'true');
+      win.style.cssText = 'display:inline-block;height:1em;overflow:hidden;line-height:1';
+      const col = document.createElement('span');
+      col.style.cssText = 'display:flex;flex-direction:column;will-change:transform';
+      for (let r = 0; r < 4; r++) for (let n = 0; n < 10; n++) { const s = document.createElement('span'); s.textContent = n; s.style.cssText = 'display:block;height:1em;line-height:1'; col.appendChild(s); }
+      win.appendChild(col); el.appendChild(win); el._cols.push({ col, target: +ch });
+    }
+  }
+
+  rollOdo(el) {
+    if (!el._cols || el._rolled) return; el._rolled = true;
+    el._cols.forEach((c, i) => {
+      c.col.style.transition = this.reduce ? 'none' : `transform ${1.9 + i * .35}s cubic-bezier(.16,1,.3,1) ${i * .08}s`;
+      c.col.style.transform = `translateY(${-(30 + c.target)}em)`;
+    });
+  }
+
+  setOdo(el, val, instant) {
+    if (!el._cols) return;
+    String(val).replace(/\D/g, '').split('').forEach((ch, i) => {
+      const c = el._cols[i]; if (!c) return;
+      c.col.style.transition = instant || this.reduce ? 'none' : `transform .9s cubic-bezier(.16,1,.3,1) ${i * .06}s`;
+      c.col.style.transform = `translateY(${-(10 + +ch)}em)`;
+    });
+  }
+
+  scramble(el) {
+    if (this.reduce) return;
+    const final = el.dataset.final || el.textContent; el.dataset.final = final;
+    const U = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', L = 'abcdefghijklmnopqrstuvwxyz';
+    let f = 0; const end = final.length * 1.2 + 10;
+    const tick = () => {
+      let out = '';
+      for (let i = 0; i < final.length; i++) {
+        const ch = final[i];
+        if (f > i * 1.2 + 8 || !/[A-Za-z0-9]/.test(ch)) out += ch;
+        else if (/\d/.test(ch)) out += (Math.random() * 10) | 0;
+        else out += (/[a-z]/.test(ch) ? L : U)[(Math.random() * 26) | 0];
+      }
+      el.textContent = out;
+      if (f++ < end && this.alive) requestAnimationFrame(tick); else el.textContent = final;
+    };
+    tick();
+  }
+
+  activate(i) {
+    if (i === this.activeSvc) return; this.activeSvc = i;
+    const svc = this.data.services[i]; if (!svc) return;
+    if (this.q.counter) this.setOdo(this.q.counter, svc.idx);
+    if (this.q.svcName) this.q.svcName.textContent = svc.title;
+    this.q.svcs.forEach((el, j) => {
+      const t = el.querySelector('[data-svc-title]'), n = el.querySelector('[data-svc-idx]');
+      if (t) t.style.color = j === i ? 'var(--x)' : '';
+      if (n) n.style.color = j === i ? 'var(--x)' : '';
+    });
+  }
+
+  loop(now) {
+    if (!this.alive) return;
+    this.raf = requestAnimationFrame(this.loop);
+    const q = this.q, y = scrollY, H = innerHeight;
+    const max = document.documentElement.scrollHeight - H, p = max > 0 ? Math.min(1, Math.max(0, y / max)) : 0;
+    this.vel = this.vel * .9 + (y - this.lastY) * .1; this.lastY = y;
+    const cl = v => v < 0 ? 0 : v > 1 ? 1 : v;
+
+    if (q.bar) q.bar.style.transform = `scaleX(${p})`;
+    if (q.logoX) q.logoX.style.transform = `rotate(${p * 360}deg)`;
+    if (q.hero && !this.reduce && y < H * 1.3) { q.hero.style.transform = `translate3d(0,${y * .3}px,0)`; q.hero.style.opacity = String(1 - cl(y / (H * .85)) * .7); }
+    if (q.ticker && !this.reduce) {
+      this.tx -= .5 + Math.min(14, Math.abs(this.vel)) * .55;
+      const half = q.ticker.scrollWidth / 2; if (half && -this.tx > half) this.tx += half;
+      q.ticker.style.transform = `translate3d(${this.tx}px,0,0)`;
+    }
+    if (q.steps) {
+      const r = q.steps.getBoundingClientRect(), sp = cl((H * .85 - r.top) / (r.height + H * .35));
+      q.fills.forEach((f, i) => { const k = cl(sp * 4 - i); f.style.transform = `scaleX(${k})`; if (k > .35 && q.stepOdos[i]) this.rollOdo(q.stepOdos[i]); });
+    }
+
+    const ik = this.reduce ? 1 : cl((now - this.t0) / 2600), ie = 1 - Math.pow(1 - ik, 3);
+    const P = ie * .12 + p * .86;
+    this.sP += (P - this.sP) * (this.reduce ? 1 : .07);
+    const S0 = .04, SL = .108, sP = this.sP;
+    const floor = Math.max(0, Math.min(7, Math.floor((sP - S0) / SL) + 1));
+    const pct = Math.round(cl((sP - S0) / (.97 - S0)) * 100);
+    if (floor !== this._floor) { this._floor = floor; if (q.floor) q.floor.textContent = String(floor).padStart(2, '0'); }
+    if (pct !== this._pct) { this._pct = pct; if (q.pct) q.pct.textContent = String(pct).padStart(3, '0'); }
+    q.ticks.forEach((t, i) => { const on = sP > S0 + i * SL + SL * .6; if (t._on !== on) { t._on = on; t.style.background = on ? 'var(--x)' : 'var(--line)'; } });
+
+    this.glOp += (this.glTarget.op - this.glOp) * .05;
+    this.glOff += ((this.wide ? this.glTarget.off : 0) - this.glOff) * .04;
+    if (q.canvas) q.canvas.style.opacity = String((this.gl ? 1 : 0) * this.glOp * (this.wide ? 1 : .5));
+    if (this.gl) this.gl.frame(now, sP, this.glOff, this.mx || 0, this.my || 0);
+  }
+
+  initGL() {
+    const T = window.THREE, cv = this.q.canvas; if (!cv) return null;
+    let r; try { r = new T.WebGLRenderer({ canvas: cv, antialias: true, alpha: true }); } catch (e) { return null; }
+    r.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+    const scene = new T.Scene(), cam = new T.PerspectiveCamera(32, 1, .1, 300);
+    const V = (x, y, z) => new T.Vector3(x, y, z);
+    const F = 7, H = 1.3, W = 2.6, S0 = .04, SL = .108;
+    const lineMat = new T.LineBasicMaterial({ color: 0x8FA6C9, transparent: true, opacity: .5, depthWrite: false });
+    const braceMat = new T.LineBasicMaterial({ color: 0xC9D6EA, transparent: true, opacity: .95, depthWrite: false });
+    const groundMat = new T.LineBasicMaterial({ color: 0x8FA6C9, transparent: true, opacity: .12, depthWrite: false });
+    const nodeMat = new T.PointsMaterial({ color: 0xC9D6EA, size: .09, transparent: true, opacity: 1, depthWrite: false });
+    const sparkMat = new T.PointsMaterial({ color: 0xFFFFFF, size: .2, transparent: true, opacity: 1, depthWrite: false });
+    const dustMat = new T.PointsMaterial({ color: 0x8FA6C9, size: .035, transparent: true, opacity: .55, depthWrite: false });
+    const segs = [], braces = [], nodes = [], plates = [];
+    const corners = (f, y) => { const w = W * (1 - f * .035) / 2 * Math.SQRT2, a = f * .14; return [0, 1, 2, 3].map(i => { const g = a + i * Math.PI / 2 + Math.PI / 4; return V(Math.cos(g) * w, y, Math.sin(g) * w); }); };
+    let lastTop;
+    for (let f = 0; f < F; f++) {
+      const s = S0 + f * SL, L = SL * 1.05, at = (a, b) => [s + a * L, s + b * L];
+      const bot = corners(f, f * H), top = corners(f, (f + 1) * H); lastTop = top;
+      if (f === 0) { for (let i = 0; i < 4; i++) segs.push({ a: bot[i], b: bot[(i + 1) % 4], t: at(0, .3) }); bot.forEach((c, i) => nodes.push({ p: c, t: s + i * .005 })); }
+      for (let i = 0; i < 4; i++) segs.push({ a: bot[i], b: top[i], t: at(.05 + i * .06, .45 + i * .06) });
+      for (let i = 0; i < 4; i++) segs.push({ a: top[i], b: top[(i + 1) % 4], t: at(.45 + i * .03, .72 + i * .03) });
+      for (let i = 0; i < 4; i++) { braces.push({ a: bot[i], b: top[(i + 1) % 4], t: at(.6, .9) }); braces.push({ a: bot[(i + 1) % 4], b: top[i], t: at(.65, .95) }); }
+      for (let g = 1; g < 4; g++) { const u = g / 4;
+        segs.push({ a: top[0].clone().lerp(top[1], u), b: top[3].clone().lerp(top[2], u), t: at(.75, 1) });
+        segs.push({ a: top[0].clone().lerp(top[3], u), b: top[1].clone().lerp(top[2], u), t: at(.78, 1) }); }
+      top.forEach((c, i) => nodes.push({ p: c, t: s + (.45 + i * .06) * L }));
+      const pg = new T.BufferGeometry(); const pa = [top[0], top[1], top[2], top[0], top[2], top[3]].flatMap(v => [v.x, v.y, v.z]);
+      pg.setAttribute('position', new T.BufferAttribute(new Float32Array(pa), 3));
+      const pm = new T.MeshBasicMaterial({ color: 0x4A6A9E, transparent: true, opacity: 0, side: T.DoubleSide, depthWrite: false });
+      const mesh = new T.Mesh(pg, pm); scene.add(mesh); plates.push({ m: pm, t: at(.7, 1) });
+    }
+    const rs = .8, yT = F * H, apex = V(0, yT + 2.4, 0), ctr = V(0, yT, 0);
+    braces.push({ a: lastTop[0], b: lastTop[2], t: [rs, rs + .07] }); braces.push({ a: lastTop[1], b: lastTop[3], t: [rs + .02, rs + .09] });
+    segs.push({ a: ctr, b: apex, t: [rs + .06, rs + .14] });
+    lastTop.forEach((c, i) => segs.push({ a: c, b: apex, t: [rs + .09 + i * .01, rs + .17] }));
+    nodes.push({ p: apex, t: rs + .15 });
+
+    const mkLines = (list, mat) => { const arr = new Float32Array(list.length * 6), g = new T.BufferGeometry(); g.setAttribute('position', new T.BufferAttribute(arr, 3)); const o = new T.LineSegments(g, mat); o.frustumCulled = false; scene.add(o); return { list, arr, g }; };
+    const SB = mkLines(segs, lineMat), BB = mkLines(braces, braceMat);
+    const mkPts = (n, mat) => { const arr = new Float32Array(n * 3).fill(-999), g = new T.BufferGeometry(); g.setAttribute('position', new T.BufferAttribute(arr, 3)); const o = new T.Points(g, mat); o.frustumCulled = false; scene.add(o); return { arr, g }; };
+    const NP = mkPts(nodes.length, nodeMat), SP = mkPts(64, sparkMat);
+
+    const ga = [];
+    for (let i = -14; i <= 14; i++) { ga.push(i, 0, -14, i, 0, 14, -14, 0, i, 14, 0, i); }
+    for (let i = 0; i < 128; i++) { const a0 = i / 128 * Math.PI * 2, a1 = (i + 1) / 128 * Math.PI * 2; if (i % 4 < 3) ga.push(Math.cos(a0) * 3.6, 0, Math.sin(a0) * 3.6, Math.cos(a1) * 3.6, 0, Math.sin(a1) * 3.6); }
+    const gg = new T.BufferGeometry(); gg.setAttribute('position', new T.BufferAttribute(new Float32Array(ga), 3)); scene.add(new T.LineSegments(gg, groundMat));
+
+    const DN = 280, dust = new Float32Array(DN * 3);
+    for (let i = 0; i < DN; i++) { const a = Math.random() * Math.PI * 2, rr = 2 + Math.random() * 7; dust[i * 3] = Math.cos(a) * rr; dust[i * 3 + 1] = Math.random() * 14; dust[i * 3 + 2] = Math.sin(a) * rr; }
+    const dg = new T.BufferGeometry(); dg.setAttribute('position', new T.BufferAttribute(dust, 3)); const dp = new T.Points(dg, dustMat); dp.frustumCulled = false; scene.add(dp);
+
+    const G = { dark: { l: 0x8FA6C9, b: 0xC9D6EA, lo: .5, bo: .95, f: .07 }, light: { l: 0x3E5A88, b: 0x22324F, lo: .5, bo: .9, f: .06 }, cobalt: { l: 0xD4DCE8, b: 0xFFFFFF, lo: .45, bo: .95, f: .08 } };
+    const cL = new T.Color(), cB = new T.Color();
+    const ease = x => 1 - Math.pow(1 - x, 3), cl = v => v < 0 ? 0 : v > 1 ? 1 : v;
+    let w = 0, h = 0, sH = 0, smx = 0, smy = 0;
+    const resize = () => { w = innerWidth; h = innerHeight; r.setSize(w, h, false); cam.aspect = w / h; cam.updateProjectionMatrix(); };
+    resize(); addEventListener('resize', resize);
+    const reduce = this.reduce;
+
+    const upd = (B, p, sp) => {
+      const a = B.arr;
+      B.list.forEach((s, i) => {
+        const raw = (p - s.t[0]) / (s.t[1] - s.t[0]), k = raw <= 0 ? 0 : raw >= 1 ? 1 : ease(raw), j = i * 6;
+        a[j] = s.a.x; a[j + 1] = s.a.y; a[j + 2] = s.a.z;
+        a[j + 3] = s.a.x + (s.b.x - s.a.x) * k; a[j + 4] = s.a.y + (s.b.y - s.a.y) * k; a[j + 5] = s.a.z + (s.b.z - s.a.z) * k;
+        if (raw > 0 && raw < 1 && sp.n < 64) { const m = sp.n++ * 3; sp.arr[m] = a[j + 3]; sp.arr[m + 1] = a[j + 4]; sp.arr[m + 2] = a[j + 5]; }
+      });
+      B.g.attributes.position.needsUpdate = true;
+    };
+
+    return {
+      frame: (now, p, off, mx, my) => {
+        const t = now / 1000, th = G[this.theme] || G.dark;
+        cL.set(th.l); cB.set(th.b);
+        lineMat.color.lerp(cL, .06); groundMat.color.lerp(cL, .06); dustMat.color.lerp(cL, .06);
+        braceMat.color.lerp(cB, .06); nodeMat.color.lerp(cB, .06); sparkMat.color.lerp(cB, .06);
+        lineMat.opacity += (th.lo - lineMat.opacity) * .06; braceMat.opacity += (th.bo - braceMat.opacity) * .06;
+        const sp = { n: 0, arr: SP.arr }; SP.arr.fill(-999);
+        upd(SB, p, sp); upd(BB, p, sp); SP.g.attributes.position.needsUpdate = true;
+        nodes.forEach((n, i) => { const on = p >= n.t, j = i * 3; NP.arr[j] = n.p.x; NP.arr[j + 1] = on ? n.p.y : -999; NP.arr[j + 2] = n.p.z; });
+        NP.g.attributes.position.needsUpdate = true;
+        plates.forEach((pl, i) => { pl.m.color.lerp(cL, .06); pl.m.opacity = th.f * ease(cl((p - pl.t[0]) / (pl.t[1] - pl.t[0]))); });
+        if (!reduce) { for (let i = 0; i < DN; i++) { dust[i * 3 + 1] += .006; if (dust[i * 3 + 1] > 14) dust[i * 3 + 1] = 0; } dg.attributes.position.needsUpdate = true; }
+
+        let topY = 0;
+        for (let f = 0; f < F; f++) { const k = cl((p - (S0 + f * SL)) / (SL * .55)); if (k > 0) topY = (f + k) * H; }
+        topY += cl((p - rs - .06) / .1) * 2.4;
+        sH += (topY - sH) * .05; smx += (mx - smx) * .05; smy += (my - smy) * .05;
+        const lookY = sH * .5 + .6, dist = 10.5 + sH * 1.05;
+        const ang = p * Math.PI * 1.4 + (reduce ? 0 : t * .035) + smx * .3 + .6;
+        cam.position.set(Math.cos(ang) * dist, lookY + 2 + dist * .2 - smy * 1.2, Math.sin(ang) * dist);
+        cam.lookAt(0, lookY, 0);
+        cam.setViewOffset(w, h, -off * w, 0, w, h);
+        r.render(scene, cam);
+      },
+      dispose: () => { removeEventListener('resize', resize); r.dispose(); }
+    };
+  }
+}
+</script>
+</body>
+</html>
